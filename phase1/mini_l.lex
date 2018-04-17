@@ -5,7 +5,7 @@
 */
 
 %{
-	int currLine = 1, currPos = 1;
+	int curLine = 1, curPos = 1;
 %}
 
 DIGIT		[0-9]
@@ -13,15 +13,15 @@ ALPHA		[a-zA-Z]
 ALPHANUM	[{ALPHA}{DIGIT}]
 
 %%
-"function"	{printf("FUNCTION"); currPos++;}
+"function"	{printf("FUNCTION"); curPos++;}
 "beginparams"	{printf("BEGIN_PARAMS");}
 "endparams"	{printf("END_PARAMS");}
 ","		{printf("COMMA");}
 "return"	{printf("RETURN");}
-";"		{printf("SEMICOLON"); currPos++;}
-":"		{printf("COLON"); currPos++;}
+";"		{printf("SEMICOLON"); curPos++;}
+":"		{printf("COLON"); curPos++;}
 "array"		{printf("ARRAY");}
-"integer"	{printf("INTEGER"); currPoss++;}
+"integer"	{printf("INTEGER"); curPoss++;}
 "beginlocals"	{printf("BEGIN_LOCALS");}
 "endlocals"	{printf("END_LOCALS");}
 "beginbody"	{printf("BEGIN_BODY");}
@@ -37,6 +37,9 @@ ALPHANUM	[{ALPHA}{DIGIT}]
 "then"		{printf("THEN");}
 "continue"	{printf("CONTINUE");}
 "do"		{printf("DO");}
+"and"		{printf("AND");}
+"or"		{printf("OR");}
+"not"		{printf("NOT");}
 "("		{printf("L_PAREN");}
 ")"		{printf("R_PAREN");}
 "["		{printf("L_SQUARE_BRACKET");}
@@ -48,15 +51,24 @@ ALPHANUM	[{ALPHA}{DIGIT}]
 "-"		{printf("SUB");}
 "/"		{printf("DIV");}
 "*"		{printf("MULT");}
+"%"		{printf("MOD");}
 "<"		{printf("LT");}
 ">"		{printf("GT");}	
 "<="		{printf("LTE");}
 ">="		{printf("GTE");}
 "=="		{printf("EQ");}
+"<>"		{printf("NEQ");}
 ":="		{printf("ASSIGN");}
-{DIGIT}+	{printf("NUMBER %s\n");}
-
+{DIGIT}+	{printf("NUMBER %s\n", yytext);}
+{ALPHA}([_{ALPHANUM}]*{ALPHANUM})? {printf("IDENT %s\n", yytext);}
+{DIGIT}[_{ALPHANUM}]*[_{ALPHA}] {printf("Error at line %d, column %d: identifier "%s" must begin with a letter", curLine, curPos, yytext);}}
+{ALPHA}[_{ALPHANUM}]*_ {printf("Error at line %d, column %d: identifier "%s" cannot end with an underscore", curLine, curPos, yytext);}}
+[ \t\r\f\v]	{curPos += yyleng;}
+"\n"		{curLine++; curPos = 1;}
+.		{printf("Error at line %d , column %d: identifier "%s" cannot end with 
 %%
+
+int	_a
 
 main(int argc, char** argv)
 {
