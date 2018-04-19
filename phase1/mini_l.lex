@@ -26,8 +26,8 @@
 "endlocals"	{printf("END_LOCALS\n"); curPos+=yyleng;}
 "beginbody"	{printf("BEGIN_BODY\n"); curPos+=yyleng;}
 "endbody"	{printf("END_BODY\n"); curPos+=yyleng;}
-"beginloop"	{printf("BEGIN_LOOP\n"); curPos+=yyleng;}
-"endloop"	{printf("END_LOOP\n"); curPos+=yyleng;}
+"beginloop"	{printf("BEGINLOOP\n"); curPos+=yyleng;}
+"endloop"	{printf("ENDLOOP\n"); curPos+=yyleng;}
 "true"		{printf("TRUE\n"); curPos+=yyleng;}
 "false"		{printf("FALSE\n"); curPos+=yyleng;}
 "while"		{printf("WHILE\n"); curPos+=yyleng;}
@@ -79,5 +79,5 @@ main(int argc, char** argv)
 		yyin = stdin;
 	}
 	yylex();
-	printf("done");
+	printf("\n");
 }
